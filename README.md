@@ -76,3 +76,74 @@
 我们让慢指针 `slow` 走在后面，快指针 `fast` 走在前面**探路**，找到一个不重复的元素就赋值给 `slow` 并让 `slow` 前进一步。
 
 这样，就保证了 `nums[0..slow]` 都是无重复的元素，当 `fast` 指针遍历完整个数组 `nums` 后，`nums[0..slow]` 就是整个数组去重之后的结果。
+//Java实现
+int removeDuplicates(int[] nums){
+    if (nums.length == 0)
+    {
+        return 0;
+    }
+    int slow = 0,fast = 0;
+    while (fast < nums.length)
+    {
+        if (nums[fast] != nums[slow])
+        {
+            slow++;
+            nums[slow] = nums[fast];
+                
+        }
+        fast++; 
+    }
+    return slow + 1;
+}
+#python实现
+class Solution(object):
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if(len(nums) == 0):
+            return 0
+        #can't assign to literal的错误来源是slow=0，fast=0写在了一行中
+        #要么用逗号隔开，用么分成两行写
+        slow=0
+        fast=0
+        while(fast < len(nums)):
+            if(nums[fast] != nums[slow]):
+                slow += 1
+                nums[slow] = nums[fast]
+            fast += 1
+
+        return slow + 1
+        
+ 类似的，例如力扣中的**移动零**题目：
+
+给定一个数组 `nums`，编写一个函数将所有 `0` 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+本质就是数组去重后将尾巴部分元素改为0
+class Solution(object):
+    def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+        #老套路，设置快慢指针
+        slow=0
+        fast=0
+        #核心代码区，区分不同目标值的设置
+        while(fast <len(nums)):
+            if(nums[fast] != 0):
+                nums[slow] = nums[fast]
+                slow += 1
+            fast += 1
+        #与前面题唯一的不同点，是将数组去重后尾部元素修改为0，此处我用的for循环，有其他新方法欢迎大佬们修改提出意见
+        for i in range(slow,len(nums)):
+            nums[i] = 0
+           
+**去重的核心代码块**：
+while(fast <len(nums)):
+            if(nums[fast] != 0):
+                nums[slow] = nums[fast]
+                slow += 1
+            fast += 1
+
